@@ -1,4 +1,4 @@
-function [sys,x0,str,ts,simStateCompliance] = water_tank(t,x,u,flag)
+function [sys,x0,str,ts,simStateCompliance] = water_tank_copy(t,x,u,flag)
 %SFUNTMPL General MATLAB S-Function Template
 %   With MATLAB S-functions, you can define you own ordinary differential
 %   equations (ODEs), discrete system equations, and/or just about
@@ -167,7 +167,7 @@ sizes = simsizes;
 
 sizes.NumContStates  = 2;
 sizes.NumDiscStates  = 0;
-sizes.NumOutputs     = 1;
+sizes.NumOutputs     = 3;
 sizes.NumInputs      = 1;
 sizes.DirFeedthrough = 1;
 sizes.NumSampleTimes = 1;   % at least one sample time is needed
@@ -241,7 +241,7 @@ sys = [];
 %
 function sys=mdlOutputs(t,x,u)
 
-sys=x(2);
+sys=[x(1);x(2);u];
 
 % end mdlOutputs
 
