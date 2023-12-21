@@ -100,49 +100,49 @@ function [sys,x0,str,ts,simStateCompliance] = inverted_pendulum(t,x,u,flag)
 % The following outlines the general structure of an S-function.
 %
 switch flag,
-
+  
   %%%%%%%%%%%%%%%%%%
   % Initialization %
   %%%%%%%%%%%%%%%%%%
   case 0,
     [sys,x0,str,ts,simStateCompliance]=mdlInitializeSizes;
-
-  %%%%%%%%%%%%%%%
-  % Derivatives %
-  %%%%%%%%%%%%%%%
+    
+    %%%%%%%%%%%%%%%
+    % Derivatives %
+    %%%%%%%%%%%%%%%
   case 1,
     sys=mdlDerivatives(t,x,u);
-
-  %%%%%%%%%%
-  % Update %
-  %%%%%%%%%%
+    
+    %%%%%%%%%%
+    % Update %
+    %%%%%%%%%%
   case 2,
     sys=mdlUpdate(t,x,u);
-
-  %%%%%%%%%%%
-  % Outputs %
-  %%%%%%%%%%%
+    
+    %%%%%%%%%%%
+    % Outputs %
+    %%%%%%%%%%%
   case 3,
     sys=mdlOutputs(t,x,u);
-
-  %%%%%%%%%%%%%%%%%%%%%%%
-  % GetTimeOfNextVarHit %
-  %%%%%%%%%%%%%%%%%%%%%%%
+    
+    %%%%%%%%%%%%%%%%%%%%%%%
+    % GetTimeOfNextVarHit %
+    %%%%%%%%%%%%%%%%%%%%%%%
   case 4,
     sys=mdlGetTimeOfNextVarHit(t,x,u);
-
-  %%%%%%%%%%%%%
-  % Terminate %
-  %%%%%%%%%%%%%
+    
+    %%%%%%%%%%%%%
+    % Terminate %
+    %%%%%%%%%%%%%
   case 9,
     sys=mdlTerminate(t,x,u);
-
-  %%%%%%%%%%%%%%%%%%%%
-  % Unexpected flags %
-  %%%%%%%%%%%%%%%%%%%%
+    
+    %%%%%%%%%%%%%%%%%%%%
+    % Unexpected flags %
+    %%%%%%%%%%%%%%%%%%%%
   otherwise
     DAStudio.error('Simulink:blocks:unhandledFlag', num2str(flag));
-
+    
 end
 
 % end sfuntmpl
@@ -205,19 +205,20 @@ simStateCompliance = 'UnknownSimState';
 %=============================================================================
 %
 function sys=mdlDerivatives(t,x,u)
-  g = 9.8;
-  m = 0.22;
-  M = 1.3282;
-  f = 22.915;
-  l = 0.304;
-  J = 4.963e-3;
+g = 9.8;
+m = 0.22;
+M = 1.3282;
+f = 22.915;
+l = 0.304;
+J = 4.963e-3;
 
-  dx1 = x(2);
-  dx2 = 1 / ((M + m)*(J+m*l^2) - m^2*l^2*cos(x(1))^2) * (-f*(M+m)*x(2) - m^2*l^2*x(2)^2*sin(x(1))*cos(x(1)) + f*m*l*x(4)*cos(x(1)) + (M+m)*m*g*l*sin(x(1)) - m*l*cos(x(1))*u);
-  dx3 = x(4);
-  dx4 = 1 / ((M + m)*(J+m*l^2) - m^2*l^2*cos(x(1))^2) * (f*m*l*x(2)*cos(x(1)) + (J+m*l^2)*m*l*x(2)^2*sin(x(1)) - f*(J+m*l^2)*x(4) - m^2*g*l^2*sin(x(1))*cos(x(1)) + (J+m*l^2)*u);
+dx1 = x(2);
+dx2 = 1 / ((M + m)*(J+m*l^2) - m^2*l^2*cos(x(1))^2) * (-f*(M+m)*x(2) - m^2*l^2*x(2)^2*sin(x(1))*cos(x(1)) + f*m*l*x(4)*cos(x(1)) + (M+m)*m*g*l*sin(x(1)) - m*l*cos(x(1))*u);
+dx3 = x(4);
+dx4 = 1 / ((M + m)*(J+m*l^2) - m^2*l^2*cos(x(1))^2) * (f*m*l*x(2)*cos(x(1)) + (J+m*l^2)*m*l*x(2)^2*sin(x(1)) - f*(J+m*l^2)*x(4) - m^2*g*l^2*sin(x(1))*cos(x(1)) + (J+m*l^2)*u);
 
 sys = [dx1; dx2; dx3; dx4];
+% sys = [real(dx1); real(dx2); real(dx3); real(dx4)];
 
 % end mdlDerivatives
 
@@ -230,7 +231,7 @@ sys = [dx1; dx2; dx3; dx4];
 %
 function sys=mdlUpdate(t,x,u)
 
-sys = x(1);
+sys = [];
 
 % end mdlUpdate
 
@@ -242,7 +243,7 @@ sys = x(1);
 %
 function sys=mdlOutputs(t,x,u)
 
-sys = [];
+sys = x(1);
 
 % end mdlOutputs
 
