@@ -208,10 +208,9 @@ function sys=mdlDerivatives(t,x,u)
 g = 9.8;
 m = 0.22;
 M = 1.3282;
-f = 22.915;
+f = 0.22915;
 l = 0.304;
 J = 4.963e-3;
-
 dx1 = x(2);
 dx2 = 1 / ((M + m)*(J+m*l^2) - m^2*l^2*cos(x(1))^2) * (-f*(M+m)*x(2) - m^2*l^2*x(2)^2*sin(x(1))*cos(x(1)) + f*m*l*x(4)*cos(x(1)) + (M+m)*m*g*l*sin(x(1)) - m*l*cos(x(1))*u);
 dx3 = x(4);
